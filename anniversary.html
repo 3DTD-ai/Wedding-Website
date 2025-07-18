@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anniversary Countdown</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fff0f3;
+    }
+    .fancy {
+      font-family: 'Playfair Display', serif;
+    }
+
+    @keyframes gentle-fade {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    #live-timer {
+      animation: gentle-fade 3s ease-in-out infinite;
+      color: #db2777; /* Tailwind rose-600 */
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      letter-spacing: 0.05em;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- Navigation Bar -->
+<nav class="w-full bg-white shadow rounded-lg mb-6 sticky top-0 z-50">
+  <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-between px-4 py-3">
+    <div class="text-xl font-bold text-pink-700 flex-shrink-0 mb-2 sm:mb-0">💍 Wedding Site</div>
+    <div class="flex space-x-4 sm:space-x-6 text-sm sm:text-base flex-wrap">
+      <a href="index.html" class="text-gray-700 hover:text-pink-600 font-medium whitespace-nowrap">Home</a>
+      <a href="guestbook.html" class="text-gray-700 hover:text-pink-600 font-medium whitespace-nowrap">Guestbook</a>
+      <a href="anniversary.html" class="text-gray-700 hover:text-pink-600 font-medium whitespace-nowrap">Anniversary</a>
+    </div>
+  </div>
+</nav>
+  <div class="max-w-3xl mx-auto px-4 py-12 text-center">
+    <img src="assets/slideshow/img078.jpg" alt="Victor and Katelin" class="w-full rounded-lg shadow-lg mb-10">
+    <h1 id="main-heading" class="text-4xl fancy text-pink-700 mb-8"></h1>
+
+    <div class="bg-pink-50 border border-pink-100 rounded-xl shadow-md px-6 py-6 mb-6 transition-all duration-500">
+      <h2 id="countdown" class="text-2xl fancy text-pink-600 mb-2">Loading countdown...</h2>
+      <div id="live-timer"></div>
+      <div class="bg-white/70 border border-pink-100 rounded-xl shadow px-6 py-5 mt-6">
+        <p id="days-married" class="text-xl text-rose-600 fancy leading-relaxed"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const countdownEl = document.getElementById("countdown");
+    const liveTimerEl = document.getElementById("live-timer");
+    const daysMarriedEl = document.getElementById("days-married");
+    const today = new Date();
+    const thisYear = today.getFullYear();
+
+    const weddingDate = new Date("2025-05-25T00:00:00");
+
+    let nextAnniversary = new Date(`${thisYear}-05-25T00:00:00`);
+    if (today > nextAnniversary) {
+      nextAnniversary = new Date(`${thisYear + 1}-05-25T00:00:00`);
+    }
+
+    const isTodayAnniversary =
+      today.getMonth() === 4 && today.getDate() === 25;
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = nextAnniversary - now;
+
+      if (isTodayAnniversary) {
+        countdownEl.innerHTML = `🎉 Happy Anniversary, Victor and Katelin! 🎉`;
+        liveTimerEl.textContent = '';
+      } else if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        countdownEl.textContent = `Countdown to Next Anniversary`;
+        liveTimerEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+    }
+
+    function updateDaysMarried() {
+      const now = new Date();
+      const diff = now - weddingDate;
+      if (diff >= 0) {
+        const daysMarried = Math.floor(diff / (1000 * 60 * 60 * 24));
+        daysMarriedEl.textContent = `They’ve been married for ${daysMarried} days.`;
+      } else {
+        daysMarriedEl.textContent = `They’ll be married starting May 25, 2025.`;
+      }
+    }
+
+    updateCountdown();
+    updateDaysMarried();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>

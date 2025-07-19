@@ -2,7 +2,7 @@
 
 // Slideshow image array
 const images = [];
-for (let i = 1; i <= 98; i++) {
+for (let i = 1; i <= 102; i++) {
   const filename = `img${String(i).padStart(3, '0')}.jpg`;
   images.push(`assets/slideshow/${filename}`);
 }
